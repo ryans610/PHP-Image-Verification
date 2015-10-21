@@ -6,9 +6,10 @@ function swap(&$a, &$b)
 }
 
 //Parameter
-$number_max=5;
 $height=isset($_GET["height"])?abs(intval($_GET["height"])):100;
 $width=isset($_GET["width"])?abs(intval($_GET["width"])):300;
+/*debug
+$number_max=isset($_GET["number"])?abs(intval($_GET["number"])):5;
 $mass=isset($_GET["mass"])?intval($_GET["mass"]):100;
 $line=isset($_GET["line"])?intval($_GET["line"]):5;
 $fontScaling=isset($_GET["scale"])?abs(floatval($_GET["scale"])):0.8;
@@ -16,8 +17,17 @@ $fontRotate=isset($_GET["rotate"])?abs(intval($_GET["rotate"])):20;
 $dashLength=isset($_GET["dash"])?abs(intval($_GET["dash"])):10;
 $spacingMin=isset($_GET["marginMin"])?abs(floatval($_GET["marginMin"])):0.5;
 $spacingMax=isset($_GET["marginMax"])?abs(floatval($_GET["marginMax"])):1.3;
+*/
+$number_max=5;
+$mass=100;
+$line=5;
+$fontScaling=0.8;
+$fontRotate=20;
+$dashLength=10;
+$spacingMin=0.5;
+$spacingMax=1.3;
 $extra="!@#$%^&*?=~";
-$fontStyle="arial.ttf";
+$fontStyle="wbfont.ttf";
 $bgTop=100;
 $fontBot=150;
 if($height>$width) {
