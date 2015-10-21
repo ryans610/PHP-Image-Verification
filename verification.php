@@ -6,7 +6,7 @@ function swap(&$a, &$b)
 }
 
 //Parameter
-$number_max=isset($_GET["number"])?abs(intval($_GET["number"])):5;
+$number_max=5;
 $height=isset($_GET["height"])?abs(intval($_GET["height"])):100;
 $width=isset($_GET["width"])?abs(intval($_GET["width"])):300;
 $mass=isset($_GET["mass"])?intval($_GET["mass"]):100;
