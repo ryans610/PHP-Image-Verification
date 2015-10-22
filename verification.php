@@ -1,5 +1,10 @@
 <?php
 //Function
+function save($result)
+{
+	session_start();
+	$_SESSION["verification"]=$result;
+}
 function swap(&$a, &$b)
 {
 	list($a,$b)=array($b,$a);
@@ -17,6 +22,8 @@ $fontRotate=isset($_GET["rotate"])?abs(intval($_GET["rotate"])):20;
 $dashLength=isset($_GET["dash"])?abs(intval($_GET["dash"])):10;
 $spacingMin=isset($_GET["marginMin"])?abs(floatval($_GET["marginMin"])):0.5;
 $spacingMax=isset($_GET["marginMax"])?abs(floatval($_GET["marginMax"])):1.3;
+$gridMin=isset($_GET["gridMin"])?abs(intval($_GET["gridMin"])):1;
+$gridMax=isset($_GET["gridMax"])?abs(intval($_GET["gridMax"])):15;
 */
 $number_max=5;
 $mass=100;
@@ -26,8 +33,17 @@ $fontRotate=20;
 $dashLength=10;
 $spacingMin=0.5;
 $spacingMax=1.3;
+$gridMin=1;
+$gridMax=15;
 $extra="!@#$%^&*?=~";
-$fontStyle="wbfont.ttf";
+$fontStyle=array(
+	"assets/arial.ttf",
+	"assets/consola.ttf",
+	"assets/consolab.ttf",
+	"assets/consolai.ttf",
+	"assets/consolaz.ttf",
+	"assets/wbfont.ttf"
+);
 $bgTop=100;
 $fontBot=150;
 if($height>$width) {
@@ -54,8 +70,7 @@ $number="";
 for($i=0;$i<$number_max;$i++) {
 	$number.=$range[rand(0, count($range)-1)];
 }
-session_start();
-$_SESSION["verification"]=$number;	//save result
+save($number);
 
 //ImageInitialize
 Header("Content-type: image/PNG");
@@ -111,6 +126,22 @@ for($i=0;$i<$mass;$i++) {
 	imagesetpixel($img, rand(0,$width), rand(0,$height), $fontColor);
 }
 
+//Grid
+$gridTop=rand($gridMin,$gridMax);
+$gridBottom=rand($gridMin,$gridMax);
+while($gridTop<$width||$gridBottom<$width) {
+	imageline($img, $gridTop, 0, $gridBottom, $height, $fontColor);
+	$gridTop+=rand($gridMin,$gridMax);
+	$gridBottom+=rand($gridMin,$gridMax);
+}
+$gridLeft=rand($gridMin,$gridMax);
+$gridRight=rand($gridMin,$gridMax);
+while($gridLeft<$height||$gridRight<$height) {
+	imageline($img, 0, $gridLeft, $width, $gridRight, $fontColor);
+	$gridLeft+=rand($gridMin,$gridMax);
+	$gridRight+=rand($gridMin,$gridMax);
+}
+
 //String
 if($number_max<=0) {
 	imagepng($img);
@@ -122,7 +153,7 @@ $spacing=($width-$fontSize*$number_max)/$number_max+1;
 $strx=rand(intval($spacing*$spacingMin),intval($spacing*$spacingMax));
 for($i=0;$i<$number_max;$i++) {
 	$strpos=rand($fontSize,$height);
-	imagettftext($img, $fontSize, rand(-$fontRotate,$fontRotate), $strx, $strpos, $fontColor, $fontStyle, $number[$i]);
+	imagettftext($img, $fontSize, rand(-$fontRotate,$fontRotate), $strx, $strpos, $fontColor, $fontStyle[rand(0,count($fontStyle)-1)], $number[$i]);
 	$strx+=rand(intval($spacing*$spacingMin),intval($spacing*$spacingMax))+$fontSize;
 }
 
